@@ -1,7 +1,7 @@
 from typing import Any, Optional
 
 
-def gridToString(
+def grid_to_string(
     arr: list[list[Any]],
     hPadding: Optional[int] = 1,
     cChar: Optional[str] = "+",
@@ -111,7 +111,7 @@ class Table:
         self._vChar = vChar
 
     def __str__(self):
-        return gridToString(
+        return grid_to_string(
             # first row (header columns)
             [[""] + [columnTitle for columnTitle in self._columnTitles]] +
             # all other rows
@@ -124,11 +124,27 @@ class Table:
             hChar=self._hChar,
             vChar=self._vChar,
         )
-
+    
+    def __getitem__(self, key: str) -> dict:
+        return self._data[key] 
+    
+    def aggregate_as_list(self, key: str) -> list:
+        return [row[key] for row in self._data.values()]
+    
+    def aggregate_as_dict(self, key: str) -> dict:
+        return {dataKey: row[key] for dataKey, row in self._data.items()}
 
 if __name__ == "__main__":
     table = Table(
-        ["Score", "Kills", "Deaths", "KD Ratio"],
+        ["Score"],
         ["Player 1", "Player 2", "Player 3", "Player 4"],
     )
+    table["Player 1"]["Score"] = 5
+    table["Player 2"]["Score"] = 5
+    table["Player 3"]["Score"] = 5
+    table["Player 4"]["Score"] = 5
+    print(table.aggregate_as_list("Score"))
+    print(table.aggregate_as_dict("Score"))
     print(table)
+
+
