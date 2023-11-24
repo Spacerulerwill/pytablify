@@ -1,4 +1,4 @@
-from typing import Any, Hashable, Optional
+from typing import Any, Optional
 
 
 def gridToString(
@@ -7,8 +7,6 @@ def gridToString(
     cChar: Optional[str] = "+",
     hChar: Optional[str] = "-",
     vChar: Optional[str] = "|",
-    titleRow: Optional[bool] = False,
-    trChar: Optional[str] = "=",
 ) -> str:
     """
     Convert a 2d array 'grid' to a string and return the string\n
@@ -17,8 +15,6 @@ def gridToString(
     cChar - the character used for corners in the grid - str\n
     hChar - the character used for horizontal - str\n
     vChar - the character used for vertical seperations - str\n
-    titleRow - if true - seperator top row from rows beneath (like using a table)\n
-    trChar - the char used for the title row seperator\n
     """
 
     # if empty 2d array - return a box shape
@@ -52,13 +48,6 @@ def gridToString(
         )  # height of each row in amount of \n + 1
         rowHeights.append(maxRowElemHeight)
 
-    # if using a title row, define title seperator
-    if titleRow:
-        titleSeperator = "\n"
-        for width in columnWidths:
-            titleSeperator += cChar + trChar * (width + hPadding * 2)
-        titleSeperator += cChar
-
     # construct grid seperator with grid widths found
     gridSeperator = "\n"
     for width in columnWidths:
@@ -70,10 +59,7 @@ def gridToString(
     # print grid with new column widths
     for row, i in enumerate(arr):
         rowHeight = rowHeights[row]
-        if row == 1 and titleRow:
-            constructedString += titleSeperator
-        else:
-            constructedString += gridSeperator
+        constructedString += gridSeperator
         for h in range(rowHeight):
             constructedString += "\n"
             for col in range(gridCols):
@@ -98,7 +84,15 @@ def gridToString(
 
 
 class Table:
-    def __init__(self, columnTitles: list[Hashable], rowTitles: list[Hashable]):
+    def __init__(
+        self,
+        columnTitles: list[str],
+        rowTitles: list[str],
+        hPadding: Optional[int] = 1,
+        cChar: Optional[str] = "+",
+        hChar: Optional[str] = "-",
+        vChar: Optional[str] = "|",
+    ):
         if len(columnTitles) == 0:
             raise ValueError("Must have atleast 1 column title")
 
@@ -111,6 +105,10 @@ class Table:
         }
         self._columnTitles = columnTitles
         self._rowTitles = rowTitles
+        self._hPadding = hPadding
+        self._cChar = cChar
+        self._hChar = hChar
+        self._vChar = vChar
 
     def __str__(self):
         return gridToString(
@@ -121,7 +119,11 @@ class Table:
             [
                 ([rowTitle] + list(rowData.values()))
                 for rowTitle, rowData in self._data.items()
-            ]
+            ],
+            hPadding=self._hPadding,
+            cChar=self._cChar,
+            hChar=self._hChar,
+            vChar=self._vChar
         )
 
 
