@@ -113,8 +113,7 @@ class Table:
     def __str__(self):
         return gridToString(
             # first row (header columns)
-            [[""] + [columnTitle for columnTitle in self._columnTitles]]
-            +
+            [[""] + [columnTitle for columnTitle in self._columnTitles]] +
             # all other rows
             [
                 ([rowTitle] + list(rowData.values()))
@@ -123,7 +122,7 @@ class Table:
             hPadding=self._hPadding,
             cChar=self._cChar,
             hChar=self._hChar,
-            vChar=self._vChar
+            vChar=self._vChar,
         )
 
 
