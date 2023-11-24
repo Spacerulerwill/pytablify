@@ -100,7 +100,7 @@ class Table:
             raise ValueError("Must have atleast 1 row title")
 
         self._data = {
-            rowTitle: {columnTitle: "" for columnTitle in columnTitles}
+            rowTitle: {columnTitle: None for columnTitle in columnTitles}
             for rowTitle in rowTitles
         }
         self._columnTitles = columnTitles
@@ -139,10 +139,6 @@ if __name__ == "__main__":
         ["Score"],
         ["Player 1", "Player 2", "Player 3", "Player 4"],
     )
-    table["Player 1"]["Score"] = 5
-    table["Player 2"]["Score"] = 5
-    table["Player 3"]["Score"] = 5
-    table["Player 4"]["Score"] = 5
     print(table.aggregate_as_list("Score"))
     print(table.aggregate_as_dict("Score"))
     print(table)
