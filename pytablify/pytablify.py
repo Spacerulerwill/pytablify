@@ -49,7 +49,7 @@ def grid_to_string(
         rowHeights.append(maxRowElemHeight)
 
     # construct grid seperator with grid widths found
-    gridSeperator = "\n"
+    gridSeperator = ""
     for width in columnWidths:
         gridSeperator += cChar + hChar * (width + hPadding * 2)
     gridSeperator += cChar
@@ -59,9 +59,8 @@ def grid_to_string(
     # print grid with new column widths
     for row, i in enumerate(arr):
         rowHeight = rowHeights[row]
-        constructedString += gridSeperator
+        constructedString += gridSeperator + "\n"
         for h in range(rowHeight):
-            constructedString += "\n"
             for col in range(gridCols):
                 colWidth = columnWidths[col] + hPadding * 2
                 try:
@@ -78,8 +77,8 @@ def grid_to_string(
                 # if last column, add last vChar
                 if col == gridCols - 1:
                     constructedString += vChar
+            constructedString += "\n"
     constructedString += gridSeperator
-
     return constructedString
 
 
