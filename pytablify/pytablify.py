@@ -97,6 +97,15 @@ class Table:
 
         if len(rowTitles) == 0:
             raise ValueError("Must have atleast 1 row title")
+        
+        if len(cChar) != 1:
+            raise ValueError("cChar must be a string of length 1")
+        
+        if len(hChar) != 1:
+            raise ValueError("hChar must be a string of length 1")
+        
+        if len(vChar) != 1:
+            raise ValueError("vChar must be a string of length 1")
 
         self._data = {
             rowTitle: {columnTitle: None for columnTitle in columnTitles}
